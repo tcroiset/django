@@ -23,6 +23,9 @@ details on these changes.
 * The ``extra_context`` parameter of ``contrib.auth.views.logout_then_login()``
   will be removed.
 
+* Support for ``Widget.render()`` methods without the ``renderer`` argument
+  will be removed.
+
 .. _deprecation-removed-in-2.0:
 
 2.0
