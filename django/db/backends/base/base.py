@@ -123,7 +123,7 @@ class BaseDatabaseWrapper(object):
 
     @property
     def queries_logged(self):
-        return self.force_debug_cursor or settings.DEBUG
+        return self.force_debug_cursor or settings.DEBUG or settings.QUERIES_LOGGED
 
     @property
     def queries(self):
