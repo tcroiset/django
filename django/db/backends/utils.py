@@ -3,6 +3,7 @@ import decimal
 import functools
 import hashlib
 import logging
+import re
 from time import time
 
 from django.conf import settings
@@ -106,9 +107,10 @@ class CursorDebugWrapper(CursorWrapper):
                 'sql': sql,
                 'time': "%.3f" % duration,
             })
+            sql_shortened = re.sub(r'SELECT.{20,}?FROM', 'SELECT /* cut */ FROM', sql)
             logger.debug(
-                '(%.3f) %s; args=%s', duration, sql, params,
-                extra={'duration': duration, 'sql': sql, 'params': params}
+                '(%.3f) %s; args=%s', duration, sql_shortened, params,
+                extra={'duration': duration, 'sql': sql_shortened, 'params': params}
             )
 
     def executemany(self, sql, param_list):
