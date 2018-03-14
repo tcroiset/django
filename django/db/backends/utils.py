@@ -109,7 +109,7 @@ class CursorDebugWrapper(CursorWrapper):
             })
             sql_shortened = re.sub(r'SELECT.{20,}?FROM', 'SELECT /* cut */ FROM', sql)
             logger.debug(
-                '(%.3f) %s; args=%s', duration, sql_shortened, params,
+                '(%.3f) %s;', duration, sql_shortened,
                 extra={'duration': duration, 'sql': sql_shortened, 'params': params}
             )
 
