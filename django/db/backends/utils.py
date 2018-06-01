@@ -107,10 +107,15 @@ class CursorDebugWrapper(CursorWrapper):
                 'sql': sql,
                 'time': "%.3f" % duration,
             })
-            sql_shortened = re.sub(r'SELECT.{20,}?FROM', 'SELECT /* cut */ FROM', sql)
+            # Limit query length
+            query_log = re.sub(r'SELECT.{20,}?FROM', 'SELECT /* cut */ FROM', sql)
+            # Ensure no password is logged
+            query_log = re.sub(r"INSERT INTO `api_user`(.*?)VALUES \('(.*?)'", "INSERT INTO `api_user`\\1VALUES ('xx'",
+                               query_log)
+            query_log = re.sub(r"`password` = '(.*?)'", "`password` = 'xxx'", query_log)
             logger.debug(
-                '(%.3f) %s;', duration, sql_shortened,
-                extra={'duration': duration, 'sql': sql_shortened, 'params': params}
+                '(%.3f) %s;', duration, query_log,
+                extra={'duration': duration, 'sql': query_log, 'params': params}
             )
 
     def executemany(self, sql, param_list):
